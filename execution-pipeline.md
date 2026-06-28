@@ -46,21 +46,39 @@ Goal → Spec → Plan → Matrix → Tasks → Prompt → Code → Evidence
 2. 若无 → goal-architect + goal-spec 创建
 3. 检查 TRACEABILITY.md 是否 §1-§7 完整
 4. 若无 → goal-matrix 创建/对齐
-5. 检查 tasks/ 是否有任务文件
-6. 若无 → goal-planner 创建
-7. 按 Task 顺序执行 task-executor
-8. 收集 evidence → goal-evidence 归档
+5. 检查 IMPLEMENTATION-PLAN.md 是否存在
+6. 若无 → goal-planner 创建（Plan 为必检项，易成最大缺口）
+7. 检查 tasks/ 是否有任务文件且与 Plan 一致
+8. 若无 → goal-planner 创建
+9. 按 Task 顺序执行 task-executor
+10. 收集 evidence → goal-evidence 归档
 ```
 
 ### 多模块批量管线
 
 ```
 1. 全量扫描 → 按缺失制品分级（P0/P1/P2）
-2. P0 模块优先（缺 goal/spec/trace）
-3. P1 模块其次（缺 task）
-4. 同优先级可并行
-5. 每个模块独立管线闭环
+   P0: 缺 goal/spec/trace（核心链路断裂）
+   P1: 缺 plan/tasks（执行链路缺失）
+   P2: plan-task 不一致、日期滞后等对齐问题
+2. P0 模块优先 → P1 其次 → P2 最后
+3. 同优先级可并行
+4. 各优先级完成后再处理下一级（避免跨级跳跃）
+5. 每个模块独立管线闭环后提交 PR
 ```
+
+> ZoneCNH 实证：59 模块全量 Pipeline 对齐，P0(8)→P1(1)→P2(18) 三级批量管线在单会话内完成。
+> Plan 阶段初始覆盖仅 28/59，补齐至 59/59。Plan 是最易被跳过的阶段，需列为必检项。
+
+### 批次规模参考
+
+| 优先级 | 模块数 | 每模块操作 | 建议批次 |
+|--------|:-----:|-----------|:------:|
+| P0 | < 10 | goal + TRACEABILITY 创建 | 4-6 模块/批 |
+| P1 | < 5 | goal 或 task 补齐 | 单批 |
+| P2 | < 20 | task 文件创建 | 8-10 模块/批 |
+| P2 | < 40 | Plan Task 表同步 | 脚本批量 |
+| P2 | < 20 | 日期/格式对齐 | 单次脚本 |
 
 ## 角色分派
 
