@@ -69,6 +69,8 @@ Goal → Spec → Plan → Matrix → Tasks → Prompt → Code → Evidence
 
 > ZoneCNH 实证：59 模块全量 Pipeline 对齐，P0(8)→P1(1)→P2(18) 三级批量管线在单会话内完成。
 > Plan 阶段初始覆盖仅 28/59，补齐至 59/59。Plan 是最易被跳过的阶段，需列为必检项。
+>
+> 当前状态 (2026-07-01)：59/59 功能模块 Pipeline 前五阶段全覆盖。Prompt 13/59，Evidence 9/59（均依赖 runtime）。TRACEABILITY 55/55 合规扫描。
 
 ### 批次规模参考
 
